@@ -2,7 +2,6 @@ package job;
 
 import api.Job;
 import engine.JobStarter;
-import io.javalin.Javalin;
 
 public class VehicleCountJob {
     public static void main(String[] args) {
