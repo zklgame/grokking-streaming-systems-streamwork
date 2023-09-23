@@ -1,11 +1,19 @@
 package job;
 
+import api.Job;
+import engine.JobStarter;
 import io.javalin.Javalin;
 
 public class VehicleCountJob {
     public static void main(String[] args) {
-        Javalin.create()
-                .get("/", ctx -> ctx.result("Hello World!"))
-                .start(7070);
+        final Job job = new Job("VehicleCountJob");
+        job.addSource(new SensorReader("SensorReader", 9999))
+                .applyOperator(new VehicleCounter("VehicleCounter"));
+
+        System.out.println("This is a streaming job that counts vehicles in real time. " +
+                "Please enter vehicle types like 'car' and 'truck' in the input terminal " +
+                "and look at the output");
+
+        new JobStarter(job).start();
     }
 }
