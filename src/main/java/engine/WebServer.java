@@ -38,7 +38,7 @@ public class WebServer {
         }
 
         String str = "";
-        for (final ComponentExecutor executor : sourceSet.stream().sorted().collect(Collectors.toList())) {
+        for (final ComponentExecutor executor : sourceSet) {
             str += traverse(graph, executor, 0);
         }
 

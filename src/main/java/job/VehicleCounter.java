@@ -17,7 +17,7 @@ public class VehicleCounter extends Operator {
 
     @Override
     public void apply(final Event event, final List<Event> eventCollector) {
-        final String vehicle = event.getData();
+        final String vehicle = ((VehicleEvent) event).getData();
         countMap.put(vehicle, countMap.getOrDefault(vehicle, 0) + 1);
 
         System.out.println("VehicleCounter -->");
