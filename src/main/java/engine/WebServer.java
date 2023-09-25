@@ -1,6 +1,6 @@
 package engine;
 
-import api.Component;
+import engine.executor.ComponentExecutor;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
@@ -9,7 +9,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class WebServer {
     public void start(final List<Connection> connectionList) {

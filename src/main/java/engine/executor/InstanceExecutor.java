@@ -1,8 +1,9 @@
-package engine;
+package engine.executor;
 
 import api.Component;
 import api.Event;
-import lombok.Data;
+import engine.EventQueue;
+import engine.Process;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -13,9 +14,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @Getter
 @Setter
-public abstract class ComponentExecutor extends Process {
+public abstract class InstanceExecutor extends Process {
     private final Component component;
-
     protected final List<Event> eventCollector = new ArrayList<>();
 
     protected EventQueue incomingQueue = null;

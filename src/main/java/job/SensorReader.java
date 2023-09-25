@@ -11,11 +11,14 @@ import java.net.Socket;
 import java.util.List;
 
 public class SensorReader extends Source {
-    private final BufferedReader reader;
+    private final int portBase;
 
-    public SensorReader(final String name, final int port) {
-        super(name);
-        reader = setupSocketReader(port);
+    private BufferedReader reader;
+    private int instanceId;
+
+    public SensorReader(final String name, final int parallelism, final int port) {
+        super(name, parallelism);
+        this.portBase = port;
     }
 
     @Override
@@ -27,10 +30,16 @@ public class SensorReader extends Source {
                 System.exit(0);
             }
             eventCollector.add(new VehicleEvent(vehicle));
-            System.out.println("\nSensorReader --> " + vehicle);
+            System.out.println("\nSensorReader :: instance " + instanceId + " --> " + vehicle);
         } catch (final IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void setupInstance(final int instanceId) {
+        this.instanceId = instanceId;
+        reader = setupSocketReader(portBase + instanceId);
     }
 
     private BufferedReader setupSocketReader(final int port) {

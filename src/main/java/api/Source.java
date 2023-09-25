@@ -1,10 +1,11 @@
 package api;
 
+import java.io.Serializable;
 import java.util.List;
 
-public abstract class Source extends Component {
-    public Source(final String name) {
-        super(name);
+public abstract class Source extends Component implements Serializable {
+    public Source(final String name, final int parallelism) {
+        super(name, parallelism);
     }
 
     /**

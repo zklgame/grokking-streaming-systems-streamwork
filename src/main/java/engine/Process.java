@@ -16,5 +16,5 @@ public abstract class Process {
         thread.start();
     }
 
-    abstract boolean runOnce();
+    public abstract boolean runOnce();
 }

@@ -1,15 +1,18 @@
-package engine;
+package engine.executor;
 
 import api.Event;
 import api.Operator;
 
 
-public class OperatorExecutor extends ComponentExecutor {
+public class OperatorInstanceExecutor extends InstanceExecutor {
     private final Operator operator;
+    private final int instanceId;
 
-    public OperatorExecutor(final Operator operator) {
+    public OperatorInstanceExecutor(final Operator operator, final int instanceId) {
         super(operator);
         this.operator = operator;
+        this.instanceId = instanceId;
+        operator.setupInstance(instanceId);
     }
 
     @Override

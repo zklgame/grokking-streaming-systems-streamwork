@@ -7,10 +7,10 @@ import job.SensorReader;
 public class TestJob {
     public static void main(String[] args) {
         final Job job = new Job("TestJob");
-        job.addSource(new SensorReader("SensorReader", 9999))
+        job.addSource(new SensorReader("SensorReader", 2, 9990))
                 .applyOperator(new Operator1("Operator1"))
                 .applyOperator(new Operator2("Operator2"));
-        job.addSource(new SensorReader("SensorReader", 9998))
+        job.addSource(new SensorReader("SensorReader", 2, 9995))
                 .applyOperator(new Operator3("Operator3"))
                 .applyOperator(new Operator4("Operator4"));
 

@@ -6,11 +6,13 @@ Builds a graph with `ComponentExecutor` and `Connection` derived from `Job` defi
 
 `EventQueue` is the base class for intermediate event queues between processes.
 
-# Process / ComponentExecutor
+# Process / InstanceExecutor / ComponentExecutor
 
 `Process` is the base class of all processes (executors). When a process is started, a new thread is created to call the `runOnce()` function of the derived class.
 
-`ComponentExecutor` is the base class for executors of `Source` and `Operator`, it has an incoming `EventQueue` and an outgoing `EventQueue`.
+`InstanceExecutor` is the base class for executors of `Source` and `Operator`, it has an incoming `EventQueue` and an outgoing `EventQueue`.
+
+`ComponentExecutor` manages an array of `InstanceExecutor` of the same `Component`.
 
 # SourceExecutor
 

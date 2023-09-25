@@ -1,13 +1,17 @@
-package engine;
+package engine.executor;
 
 import api.Source;
+import engine.EventQueue;
 
-public class SourceExecutor extends ComponentExecutor {
+public class SourceInstanceExecutor extends InstanceExecutor {
     private final Source source;
+    private final int instanceId;
 
-    public SourceExecutor(final Source source) {
+    public SourceInstanceExecutor(final Source source, final int instanceId) {
         super(source);
         this.source = source;
+        this.instanceId = instanceId;
+        source.setupInstance(instanceId);
     }
 
     @Override
@@ -24,6 +28,7 @@ public class SourceExecutor extends ComponentExecutor {
 
     @Override
     public void setIncomingQueue(final EventQueue queue) {
-        throw new RuntimeException("SourceExecutor cannot setIncomingQueue!");
+        throw new RuntimeException("SourceInstanceExecutor cannot setIncomingQueue!");
     }
 }
+
