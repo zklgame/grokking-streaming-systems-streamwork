@@ -4,7 +4,12 @@ The `Job` class is used by users to set up their jobs and run.
 
 ```java
 Job job = new Job("job");
-job.addSource(source).applyOperator(operator);
+Stream stream1 = job.addSource(source1)
+   .selectChannel("channel1")
+   .applyOperator(operator1);
+Stream stream2 = job.addSource(source2)
+   .applyOperator("channel2", operator2)
+Streams.of(stream1, stream2).applyOperator(operator3);
 ```
 
 # Component

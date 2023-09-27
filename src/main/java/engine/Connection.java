@@ -10,4 +10,5 @@ import lombok.RequiredArgsConstructor;
 public class Connection {
     private final ComponentExecutor from;
     private final OperatorExecutor to;
+    private final String channel;
 }

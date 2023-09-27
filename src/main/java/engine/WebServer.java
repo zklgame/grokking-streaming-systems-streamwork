@@ -18,12 +18,12 @@ public class WebServer {
     }
 
     private void index(final Context ctx, final List<Connection> connectionList) {
-        final Map<ComponentExecutor, Set<ComponentExecutor>> graph = new HashMap<>();
+        final Map<ComponentExecutor, Set<Connection>> graph = new HashMap<>();
         final Set<ComponentExecutor> toSet = new HashSet<>();
 
         for (final Connection connection : connectionList) {
-            final Set<ComponentExecutor> graphToSet = graph.getOrDefault(connection.getFrom(), new HashSet<>());
-            graphToSet.add(connection.getTo());
+            final Set<Connection> graphToSet = graph.getOrDefault(connection.getFrom(), new HashSet<>());
+            graphToSet.add(connection);
             graph.put(connection.getFrom(), graphToSet);
 
             toSet.add(connection.getTo());
@@ -38,22 +38,25 @@ public class WebServer {
 
         String str = "";
         for (final ComponentExecutor executor : sourceSet) {
-            str += traverse(graph, executor, 0);
+            str += traverse(graph, executor, "", 0);
         }
 
         ctx.result(str);
     }
 
-    private String traverse(final Map<ComponentExecutor, Set<ComponentExecutor>> graph, final ComponentExecutor executor, final int level) {
+    private String traverse(final Map<ComponentExecutor, Set<Connection>> graph, final ComponentExecutor executor, final String channel, final int level) {
         String str = "";
         for (int i = 0; i < level; i++) {
             str += " ";
         }
+        if (channel.length() > 0) {
+            str += " ( " + channel + " ) ";
+        }
 
         str += executor.getComponent().getName() + "\n";
 
-        for (final ComponentExecutor componentExecutor : graph.getOrDefault(executor, new HashSet<>())) {
-            str += traverse(graph, componentExecutor, level + 1);
+        for (final Connection connection : graph.getOrDefault(executor, new HashSet<>())) {
+            str += traverse(graph, connection.getTo(), connection.getChannel(), level + 1);
         }
 
         return str;

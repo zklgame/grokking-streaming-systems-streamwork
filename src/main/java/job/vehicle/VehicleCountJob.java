@@ -1,4 +1,4 @@
-package job;
+package job.vehicle;
 
 import api.Job;
 import api.groupingStrategy.FieldsGrouping;

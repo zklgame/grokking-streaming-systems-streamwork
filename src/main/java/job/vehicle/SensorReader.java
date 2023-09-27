@@ -1,6 +1,6 @@
-package job;
+package job.vehicle;
 
-import api.Event;
+import api.EventCollector;
 import api.Source;
 
 
@@ -8,7 +8,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import java.util.List;
 
 public class SensorReader extends Source {
     private final int portBase;
@@ -22,7 +21,7 @@ public class SensorReader extends Source {
     }
 
     @Override
-    public void getEvents(final List<Event> eventCollector) {
+    public void getEvents(final EventCollector eventCollector) {
         try {
             final String vehicle = reader.readLine();
             if (vehicle == null) {

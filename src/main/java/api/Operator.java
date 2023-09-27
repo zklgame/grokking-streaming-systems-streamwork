@@ -5,7 +5,6 @@ import api.groupingStrategy.ShuffleGrouping;
 import lombok.Getter;
 
 import java.io.Serializable;
-import java.util.List;
 
 @Getter
 public abstract class Operator extends Component implements Serializable {
@@ -27,5 +26,5 @@ public abstract class Operator extends Component implements Serializable {
      * @param event The incoming event
      * @param eventCollector The outgoing event collector
      */
-    public abstract void apply(final Event event, final List<Event> eventCollector);
+    public abstract void apply(final Event event, final EventCollector eventCollector);
 }

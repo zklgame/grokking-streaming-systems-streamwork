@@ -22,15 +22,21 @@ public abstract class ComponentExecutor {
         }
     }
 
+    public void registerChannel(final String channel) {
+        for (final InstanceExecutor instanceExecutor : instanceExecutors) {
+            instanceExecutor.registerChannel(channel);
+        }
+    }
+
     public void setIncomingQueues(final EventQueue[] eventQueues) {
         for (int i = 0; i < eventQueues.length; i ++) {
             instanceExecutors[i].setIncomingQueue(eventQueues[i]);
         }
     }
 
-    public void setOutgoingQueue(final EventQueue eventQueue) {
+    public void addOutgoingQueue(final String channel, final EventQueue eventQueue) {
         for (final InstanceExecutor instanceExecutor : instanceExecutors) {
-            instanceExecutor.setOutgoingQueue(eventQueue);
+            instanceExecutor.addOutgoingQueue(channel, eventQueue);
         }
     }
 }
