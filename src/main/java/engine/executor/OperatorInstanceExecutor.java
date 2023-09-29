@@ -2,6 +2,7 @@ package engine.executor;
 
 import api.Event;
 import api.Operator;
+import api.deliveryStrategy.DeliveryStrategy;
 
 
 public class OperatorInstanceExecutor extends InstanceExecutor {
@@ -19,7 +20,23 @@ public class OperatorInstanceExecutor extends InstanceExecutor {
     public boolean runOnce() {
         try {
             final Event event = incomingQueue.take();
-            operator.apply(event, eventCollector);
+
+            switch (operator.getDeliveryStrategy()) {
+                case AT_LEAST_ONCE: {
+                    acknowledger.addToCache(incomingQueue, event);
+
+                    try {
+                        operator.apply(event, eventCollector);
+                        acknowledger.ack(incomingQueue, event.getId());
+                    } catch (final Exception e) {
+                        acknowledger.fail(incomingQueue, event.getId());
+                    }
+
+                    break;
+                }
+                default:
+                    operator.apply(event, eventCollector);
+            }
 
             emitEvents();
         } catch (final Exception e) {

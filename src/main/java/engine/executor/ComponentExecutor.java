@@ -1,6 +1,7 @@
 package engine.executor;
 
 import api.Component;
+import engine.Acknowledger;
 import engine.EventQueue;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,6 +38,12 @@ public abstract class ComponentExecutor {
     public void addOutgoingQueue(final String channel, final EventQueue eventQueue) {
         for (final InstanceExecutor instanceExecutor : instanceExecutors) {
             instanceExecutor.addOutgoingQueue(channel, eventQueue);
+        }
+    }
+
+    public void setAcknowledger(final Acknowledger acknowledger) {
+        for (final InstanceExecutor instanceExecutor : instanceExecutors) {
+            instanceExecutor.setAcknowledger(acknowledger);
         }
     }
 }

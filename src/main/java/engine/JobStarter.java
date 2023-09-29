@@ -84,6 +84,8 @@ public class JobStarter {
     // Each component executor could connect to multiple downstream operator executors.
     // from -> (upstream) -> eventDispatcher -> (downstream) -> to
     private void connectByQueue() {
+        final Acknowledger acknowledger = new Acknowledger();
+
         for (final Connection connection : connectionList) {
             connection.getFrom().registerChannel(connection.getChannel());
 
@@ -110,6 +112,9 @@ public class JobStarter {
             }
 
             connection.getFrom().addOutgoingQueue(connection.getChannel(), upstream);
+
+            // for ack
+            connection.getTo().setAcknowledger(acknowledger);
         }
     }
 }

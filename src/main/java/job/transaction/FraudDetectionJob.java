@@ -3,20 +3,22 @@ package job.transaction;
 import api.Job;
 import api.Stream;
 import api.Streams;
+import api.deliveryStrategy.DeliveryStrategy;
 import engine.JobStarter;
-import job.transaction.analyzer.AvgTicketAnalyzer;
-import job.transaction.analyzer.WindowedProximityAnalyzer;
-import job.transaction.analyzer.WindowedTransactionCountAnalyzer;
+import job.transaction.operators.frauddetection.AvgTicketAnalyzer;
+import job.transaction.operators.frauddetection.ScoreAggregator;
+import job.transaction.operators.frauddetection.WindowedProximityAnalyzer;
+import job.transaction.operators.frauddetection.WindowedTransactionCountAnalyzer;
 import job.transaction.groupingStrategy.TransactionIdFieldsGrouping;
 import job.transaction.groupingStrategy.UserAccountFieldsGrouping;
 
 public class FraudDetectionJob {
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         final Job job = new Job("FraudDetectionJob");
 
         final Stream transactionSoureStream = job.addSource(new TransactionSource("TransactionSource", 2, 9990));
         final Stream avgTicketAnalyzerStream = transactionSoureStream.applyOperator(
-                new AvgTicketAnalyzer("AvgTicketAnalyzer", 2, new UserAccountFieldsGrouping())
+                new AvgTicketAnalyzer("AvgTicketAnalyzer", 2, new UserAccountFieldsGrouping(), DeliveryStrategy.AT_LEAST_ONCE)
         );
         final Stream windowedProximityAnalyzerStream = transactionSoureStream.selectChannel("channel1").applyOperator(
                 new WindowedProximityAnalyzer("WindowedProximityAnalyzer", 2, new UserAccountFieldsGrouping())

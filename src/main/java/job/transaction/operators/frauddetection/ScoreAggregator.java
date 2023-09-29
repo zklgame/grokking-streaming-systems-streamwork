@@ -1,9 +1,10 @@
-package job.transaction;
+package job.transaction.operators.frauddetection;
 
 import api.Event;
 import api.EventCollector;
 import api.Operator;
 import api.groupingStrategy.GroupingStrategy;
+import job.transaction.ScoreStorage;
 import job.transaction.event.TransactionScoreEvent;
 
 public class ScoreAggregator extends Operator {

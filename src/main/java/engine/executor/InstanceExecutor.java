@@ -3,6 +3,7 @@ package engine.executor;
 import api.Component;
 import api.Event;
 import api.EventCollector;
+import engine.Acknowledger;
 import engine.EventQueue;
 import engine.Process;
 import lombok.Getter;
@@ -25,6 +26,8 @@ public abstract class InstanceExecutor extends Process {
     protected EventQueue incomingQueue = null;
     protected final Map<String, List<EventQueue>> outgoingQueues = new HashMap<>();
 
+    protected Acknowledger acknowledger = null;
+
     public void registerChannel(final String channel) {
         eventCollector.registerChannel(channel);
     }
@@ -33,6 +36,10 @@ public abstract class InstanceExecutor extends Process {
         final List<EventQueue> eventQueues = outgoingQueues.getOrDefault(channel, new ArrayList<>());
         eventQueues.add(eventQueue);
         outgoingQueues.put(channel, eventQueues);
+    }
+
+    public void setAcknowledger(final Acknowledger acknowledger) {
+        this.acknowledger = acknowledger;
     }
 
     protected void emitEvents() throws InterruptedException {

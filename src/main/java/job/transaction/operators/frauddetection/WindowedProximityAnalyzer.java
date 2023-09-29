@@ -1,4 +1,4 @@
-package job.transaction.analyzer;
+package job.transaction.operators.frauddetection;
 
 import api.Event;
 import api.EventCollector;
