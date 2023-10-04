@@ -2,6 +2,9 @@ package engine.executor;
 
 import api.Event;
 import api.Operator;
+import api.window.InternalWindowedOperator;
+
+import java.util.concurrent.TimeUnit;
 
 
 public class OperatorInstanceExecutor extends InstanceExecutor {
@@ -18,8 +21,13 @@ public class OperatorInstanceExecutor extends InstanceExecutor {
     @Override
     public boolean runOnce() {
         try {
-            final Event event = incomingQueue.take();
-            operator.apply(event, eventCollector);
+            // Read input. Time out every one second to check if there is any event windows ready to be processed.
+            final Event event = incomingQueue.poll(1, TimeUnit.SECONDS);
+
+            if (operator instanceof InternalWindowedOperator || event != null) {
+                // window operator handles null event too
+                operator.apply(event, eventCollector);
+            }
 
             emitEvents();
         } catch (final Exception e) {
