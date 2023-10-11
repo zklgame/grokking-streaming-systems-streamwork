@@ -1,5 +1,6 @@
 package engine.executor;
 
+import api.JoinOperator;
 import api.Operator;
 import api.groupingStrategy.GroupingStrategy;
 import org.apache.commons.lang3.SerializationUtils;
@@ -18,7 +19,11 @@ public class OperatorExecutor extends ComponentExecutor {
         }
     }
 
-    public GroupingStrategy getGroupingStrategy() {
+    public GroupingStrategy getGroupingStrategy(final String streamName) {
+        if (operator instanceof JoinOperator) {
+            return ((JoinOperator) operator).getGroupingStrategy(streamName);
+        }
+
         return operator.getGroupingStrategy();
     }
 }

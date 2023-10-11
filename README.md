@@ -13,7 +13,8 @@ Here is the mapping of each functionality:
 | CH-03                                                    | `e40163cf0febf9e057c338acb9daffe46b6021ef`                      |
 | CH-04                                                    | `a72cfe61dd55ff4c1aa1b46524dd4fb8cecc633c`                      |
 | CH-05 : at-least-once implementation with `acknowledger` | Use the latest codes of the branch `acknowledger_at_least_once` |
-| CH-07                                                    | latest                                                          |
+| CH-07                                                    | `2b8f690ed5a3666350619936485060df6457e767`                      |
+| CH-08                                                    | latest                                                          |
 
 - The at-least-once implementation with `acknowledger` differs from what the book suggests.
   In this approach, the `acknowledger` is employed to oversee the event cache for each incoming queue.

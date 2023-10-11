@@ -1,6 +1,7 @@
 package engine;
 
 import api.Event;
+import static api.groupingStrategy.GroupingStrategy.ALL_INSTANCES;
 import engine.executor.OperatorExecutor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +19,14 @@ public class EventDispatcher extends Process {
     public boolean runOnce() {
         try {
             final Event event = incomingQueue.take();
-            final int instanceId = downstreamExecutor.getGroupingStrategy().getInstanceId(event, outgoingQueues.length);
-            outgoingQueues[instanceId].put(event);
+            final int instanceId = downstreamExecutor.getGroupingStrategy(event.getStreamName()).getInstanceId(event, outgoingQueues.length);
+            if (instanceId == ALL_INSTANCES) {
+                for (final EventQueue outgoingQueue : outgoingQueues) {
+                    outgoingQueue.put(event);
+                }
+            } else {
+                outgoingQueues[instanceId].put(event);
+            }
         } catch (final Exception e) {
             return false;
         }
